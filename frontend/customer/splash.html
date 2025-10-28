@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyRestaurant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap" rel="stylesheet">
+    <style>
+        .pinyon-script-regular {
+        font-family: "Pinyon Script", cursive;
+        font-weight: 400;
+        font-style: normal;
+        }
+
+    </style>
+</head>
+<body>
+ <!-- Splash Screen - index.html -->
+  <div id="splash" class="fixed inset-0 flex flex-col items-center justify-center bg-black text-gray-100 transition-opacity duration-700 z-50">
+    <h1 class="text-4xl md:text-6xl font-bold text-center leading-snug">
+      <span class="block text-2xl md:text-3xl font-light">Welcome to</span>
+      <span class="block text-5xl md:text-7xl pinyon-script-regular text-green-600 mt-2">Delicious Bites</span>
+    </h1>
+  </div>
+
+<script>
+  setTimeout(() => {
+    document.getElementById('splash').style.opacity = '0';
+    setTimeout(() =>  window.location.href = '/menuOverview', 700)
+  }, 1500);
+
+  // table Number fetched from url.
+  const params = new URLSearchParams(window.location.search);
+  const table = params.get('table');
+  console.log(table);
+
+  fetch('/api/table', {
+    method : 'POST',
+    headers : { 'Content-Type' : 'application/json'},
+    body : JSON.stringify({
+      tableNumber : table,
+    })
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log(data);
+      localStorage.setItem('sessionId', data.newTable.sessionId);
+      // window.location.href = '/menuOverview';
+  })
+
+</script>
+
+</body>
+</html>

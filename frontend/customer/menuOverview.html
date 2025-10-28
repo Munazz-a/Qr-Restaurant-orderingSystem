@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Menu Overview</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <style>
+    .pinyon-script-regular {
+      font-family: "Pinyon Script", cursive;
+      font-weight: 400;
+      font-style: normal;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-100">
+  <!-- Navbar -->
+  <nav class="fixed top-0 left-0 right-0 bg-white shadow-md z-50 flex items-center justify-between px-4 py-3">
+    <!-- Sidebar Toggle Button (works on all devices) -->
+    <button onclick="toggleSidebar()" class="text-green-600 text-2xl">
+      &#9776;
+    </button>
+
+    <!-- Logo -->
+    <h1 class="text-2xl pinyon-script-regular text-green-700">Delicious Bites</h1>
+
+    <!-- Search Bar (desktop) -->
+    <div id="laptopSearch" class="hidden md:flex items-center w-1/3">
+      <input type="text" id="laptopSearchInput" placeholder="Search menu..."
+        class="w-full border border-gray-300 rounded-lg px-3 py-1 focus:outline-none focus:ring-2 focus:ring-green-400">
+    </div>
+
+    <!-- Search Icon (mobile) -->
+    <button id="searchIcon" class="md:hidden text-gray-600 text-lg" onclick="toggleSearch()">
+      <i class="bi bi-search"></i>
+    </button>
+  </nav>
+
+  <!-- Mobile Search Bar (toggleable) -->
+  <div id="mobileSearch" class="hidden fixed top-14 left-0 right-0 bg-white z-40 p-3 md:hidden shadow-md">
+    <input type="text" id="mobileSearchInput" placeholder="Search menu..."
+      class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-400">
+  </div>
+  <!-- No item found -->
+  <p id="noResult" class="text-center mt-60 text-gray-600 hidden">No items found 😔</p>
+
+
+  <!-- Sidebar -->
+  <div id="sidebar"
+    class="fixed inset-y-0 left-0 w-64 bg-white shadow-lg z-40 transform -translate-x-full transition-transform duration-300">
+    <button onclick="toggleSidebar()" class="p-2 absolute top-2 right-2 text-gray-500">
+      &times;
+    </button>
+    <ul class="mt-20 space-y-4 px-4">
+      <li><a href="#starter" class="block py-2 px-4 rounded hover:bg-green-100" onclick="toggleSidebar()">Starter</a></li>
+      <li><a href="#breads" class="block py-2 px-4 rounded hover:bg-green-100" onclick="toggleSidebar()">Breads</a></li>
+      <li><a href="#MainCourse" class="block py-2 px-4 rounded hover:bg-green-100" onclick="toggleSidebar()">Main Course</a></li>
+      <li><a href="#Pizza&Burger" class="block py-2 px-4 rounded hover:bg-green-100" onclick="toggleSidebar()">Pizza & Burger</a></li>
+      <li><a href="#drinks" class="block py-2 px-4 rounded hover:bg-green-100" onclick="toggleSidebar()">Drinks</a></li>
+      <li><a href="#desserts" class="block py-2 px-4 rounded hover:bg-green-100" onclick="toggleSidebar()">Desserts</a></li>
+    </ul>
+
+    <!-- ✅ Table Number Badge -->
+    <div id="tableNumberBadge" class="block bg-gray-300 text-black  px-8 py-3 m-3 rounded-lg shadow-lg text-lg">
+      Table : <span id="tableNumber"></span>
+    </div>
+  </div>
+
+  <!-- Overlay -->
+  <div id="overlay" class="fixed inset-0 bg-black bg-opacity-40 z-30 hidden" onclick="toggleSidebar()"></div>
+
+  <!-- cart icon -->
+  <button id="viewCart" class="hidden fixed bottom-6 right-6 bg-green-600 text-white p-4 rounded-full shadow-lg">
+    <a href="/myOrder">
+      <i class="bi bi-cart3 text-2xl"></i>
+      <span id="cartItems"
+        class="hidden absolute -top-1 -right-1 bg-white text-black text-xs font-bold rounded-full h-7 w-7 flex items-center justify-center">
+      </span>
+    </a>
+  </button>
+
+  <!-- Main Content -->
+  <div class="max-w-3xl mx-auto py-16 px-4 mt-8 transition-all duration-300">
+    <section id="starter" class="mb-12"><h2 class="pinyon-script-regular text-3xl font-bold">Starter</h2>
+      <p>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-6 mt-6">
+
+  <!-- ✅ Food Card -->
+  <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+    <img src="https://i.pinimg.com/1200x/10/e4/dd/10e4dd49f5208015c16973726cad6ea0.jpg" class="rounded-lg w-full h-28 object-cover">
+    <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Zucchini Paneer Fritters</h3>
+    <p class="text-green-600 font-bold text-sm">₹295</p>
+
+    <div class="mt-2">
+      <!-- Add Button -->
+      <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)"> Add </button>
+
+      <!-- Quantity Selector (hidden initially) -->
+      <div class="qty-box hidden flex items-center gap-3">
+        <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+        <span class="qty text-lg font-bold">1</span>
+        <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+    <img src="https://i.pinimg.com/736x/68/64/1d/68641d0c9c9fa62a43508f2b246e1be3.jpg" class="rounded-lg w-full h-28 object-cover">
+    <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Keto Paneer Tikka Skewers</h3>
+    <p class="text-green-600 font-bold text-sm">₹249</p>
+    <div class="mt-2">
+      <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+      <div class="qty-box hidden flex items-center gap-3">
+        <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+        <span class="qty text-lg font-bold">1</span>
+        <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+    <img src="https://i.pinimg.com/1200x/00/10/e0/0010e0ef4b9fd173dd81c74a9867d14f.jpg" class="rounded-lg w-full h-28 object-cover">
+    <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Jalapeño Poppers</h3>
+    <p class="text-green-600 font-bold text-sm">₹255</p>
+    <div class="mt-2">
+      <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+      <div class="qty-box hidden flex items-center gap-3">
+        <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+        <span class="qty text-lg font-bold">1</span>
+        <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+    <img src="https://i.pinimg.com/1200x/0b/ad/2f/0bad2f344f281ed5032fc2907e13a6a2.jpg" class="rounded-lg w-full h-28 object-cover">
+    <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Grilled Chipotle Chicken Skewers</h3>
+    <p class="text-green-600 font-bold text-sm">₹265</p>
+    <div class="mt-2">
+      <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+      <div class="qty-box hidden flex items-center gap-3">
+        <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+        <span class="qty text-lg font-bold">1</span>
+        <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+    <img src="https://i.pinimg.com/1200x/26/2b/7a/262b7a07c049d889c0b0724f251ac3cd.jpg" class="rounded-lg w-full h-28 object-cover">
+    <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Chicken Popcorn</h3>
+    <p class="text-green-600 font-bold text-sm">₹385</p>
+    <div class="mt-2">
+      <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+      <div class="qty-box hidden flex items-center gap-3">
+        <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+        <span class="qty text-lg font-bold">1</span>
+        <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+    <img src="https://i.pinimg.com/1200x/c8/d8/d5/c8d8d57e6025462210edbf4b1b4fce57.jpg" class="rounded-lg w-full h-28 object-cover">
+    <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Chicken Kurkure</h3>
+    <p class="text-green-600 font-bold text-sm">₹385</p>
+    <div class="mt-2">
+      <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+      <div class="qty-box hidden flex items-center gap-3">
+        <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+        <span class="qty text-lg font-bold">1</span>
+        <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+    <img src="https://i.pinimg.com/1200x/4c/e1/40/4ce140499895f26ce9fb6bfb36b2ce4c.jpg" class="rounded-lg w-full h-28 object-cover">
+    <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">BBQ Wings</h3>
+    <p class="text-green-600 font-bold text-sm">₹405</p>
+    <div class="mt-2">
+      <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+      <div class="qty-box hidden flex items-center gap-3">
+        <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+        <span class="qty text-lg font-bold">1</span>
+        <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+    <img src="https://i.pinimg.com/736x/23/8c/85/238c85b8e5568c691c1fb4d7689eb893.jpg" class="rounded-lg w-full h-28 object-cover">
+    <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Panko Prawns</h3>
+    <p class="text-green-600 font-bold text-sm">₹415</p>
+    <div class="mt-2">
+      <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+      <div class="qty-box hidden flex items-center gap-3">
+        <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+        <span class="qty text-lg font-bold">1</span>
+        <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+    <img src="https://i.pinimg.com/736x/10/65/24/106524877e55b8a04135577c9fd65db4.jpg" class="rounded-lg w-full h-28 object-cover">
+    <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Fish Finger</h3>
+    <p class="text-green-600 font-bold text-sm">₹405</p>
+    <div class="mt-2">
+      <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+      <div class="qty-box hidden flex items-center gap-3">
+        <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+        <span class="qty text-lg font-bold">1</span>
+        <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+    <img src="https://i.pinimg.com/736x/4d/d6/9b/4dd69b7325aae5b3fc3696dcc3999ce3.jpg" class="rounded-lg w-full h-28 object-cover">
+    <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Fish N Chips</h3>
+    <p class=" text-green-600 font-bold text-sm">₹485</p>
+    <div class="mt-2">
+      <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+      <div class="qty-box hidden flex items-center gap-3">
+        <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+        <span class="qty text-lg font-bold">1</span>
+        <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+      </p>
+    </section>
+    <section id="breads" class="mb-12"><h2 class="pinyon-script-regular text-3xl font-bold">Breads</h2>
+      <p>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-6 mt-6">
+        <!-- ✅ Food Card -->
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/736x/b4/39/a4/b439a4b531228f8cf640633cd6ced73f.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Plain Naan</h3>
+            <p class="text-green-600 font-bold text-sm">₹75</p>
+
+            <div class="mt-2">
+              <!-- Add Button -->
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)"> Add </button>
+              <!-- Quantity Selector (hidden initially) -->
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Duplicate & Change Values for More Items -->
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/1200x/a5/af/3e/a5af3ea135a079100e809b571c54d4e7.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Garlic Naan</h3>
+            <p class="text-green-600 font-bold text-sm">₹85</p>
+            <div class="mt-2">
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/1200x/fc/07/07/fc070786cd5b9b6912310dd9893162bb.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Tandoori Roti</h3>
+            <p class="text-green-600 font-bold text-sm">₹55</p>
+            <div class="mt-2">
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/736x/98/12/2c/98122c94ac459adfe9bf5601d57c8af8.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Butter Roti</h3>
+            <p class="text-green-600 font-bold text-sm">₹65</p>
+            <div class="mt-2">
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/736x/60/9c/8f/609c8fcab82b7dffebaf4041b456ad7c.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Laccha Paratha</h3>
+            <p class="text-green-600 font-bold text-sm">₹75</p>
+            <div class="mt-2">
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/736x/7a/0d/1e/7a0d1ee3e5e41ccafb41d4e9a9a69ad2.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Masala Kulcha</h3>
+            <p class="text-green-600 font-bold text-sm">₹95</p>
+            <div class="mt-2">
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </p>
+    </section>
+    <section id="MainCourse" class="mb-12"><h2 class="pinyon-script-regular text-3xl font-bold">Main Course</h2>
+      <p>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-6 mt-6">
+        <!-- ✅ Food Card -->
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/736x/e2/99/94/e29994570732ae90ae25b80bbb98b8e6.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Lamb Biryani</h3>
+            <p class="text-green-600 font-bold text-sm">₹425</p>
+
+            <div class="mt-2">
+              <!-- Add Button -->
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)"> Add </button>
+
+              <!-- Quantity Selector (hidden initially) -->
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Duplicate & Change Values for More Items -->
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/736x/76/08/8a/76088a1db704a25d38c048d9ab2d8b03.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Thai Basil Rice</h3>
+            <p class="text-green-600 font-bold text-sm">₹385</p>
+            <div class="mt-2">
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/736x/ad/82/36/ad82368d7d2c7a5a7ac5ff98e9eacbea.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Fried Rice</h3>
+            <p class="text-green-600 font-bold text-sm">₹285</p>
+            <div class="mt-2">
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/1200x/d7/90/00/d79000584212728b2b4eebe7881f5b64.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Soba Noodles</h3>
+            <p class="text-green-600 font-bold text-sm">₹295</p>
+            <div class="mt-2">
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/1200x/04/f4/9e/04f49ee67da37e9632d74daf3aa8b0e8.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Fettuccine Alfredo</h3>
+            <p class="text-green-600 font-bold text-sm">₹365</p>
+            <div class="mt-2">
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/736x/b7/32/84/b732847d2b6dba5ec3f7a43199704574.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Lasagna</h3>
+            <p class="text-green-600 font-bold text-sm">₹355</p>
+            <div class="mt-2">
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/1200x/93/e9/79/93e97987768f9240c5ffda2475c0ce28.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Butter Chicken</h3>
+            <p class="text-green-600 font-bold text-sm">₹309</p>
+            <div class="mt-2">
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/736x/0d/b0/a8/0db0a881f8fa0f6d37fe6ec50532ac09.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Palak Paneer</h3>
+            <p class="text-green-600 font-bold text-sm">₹249</p>
+            <div class="mt-2">
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/1200x/1d/dd/95/1ddd95f84379d5a5fb861868860ee5ef.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Chicken Tikka Masala</h3>
+            <p class="text-green-600 font-bold text-sm">₹309</p>
+            <div class="mt-2">
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/736x/ce/b7/77/ceb777ac73a13d4351625201cf0b36de.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Malai Kofta</h3>
+            <p class="text-green-600 font-bold text-sm">₹315</p>
+            <div class="mt-2">
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </p>
+    </section>
+    <section id="Pizza&Burger" class="mb-12"><h2 class="pinyon-script-regular text-3xl font-bold">Pizza & Burger</h2>
+      <p>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-6 mt-6">
+        <!-- ✅ Food Card -->
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/736x/90/73/4e/90734e4b2183263f1162f99dd29f4587.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Margherita Pizza</h3>
+            <p class="text-green-600 font-bold text-sm">₹325</p>
+
+            <div class="mt-2">
+              <!-- Add Button -->
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)"> Add </button>
+
+              <!-- Quantity Selector (hidden initially) -->
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Duplicate & Change Values for More Items -->
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/736x/96/19/d2/9619d2937490fcc6b2a64448344ee078.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Paneer Tikka Pizza</h3>
+            <p class="text-green-600 font-bold text-sm">₹385</p>
+            <div class="mt-2">
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/1200x/7e/f2/fd/7ef2fd5a7d813e3ffab0d20ca5d1b11d.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Corn Cheese Pizza</h3>
+            <p class="text-green-600 font-bold text-sm">₹385</p>
+            <div class="mt-2">
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/736x/4d/4e/d5/4d4ed56da208cca52dfc64fdf475e9f7.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Chicken Tikka Pizza</h3>
+            <p class="text-green-600 font-bold text-sm">₹425</p>
+            <div class="mt-2">
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/1200x/cf/a8/a6/cfa8a698c25248c0688118d7d67eef37.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Peri Peri Chicken Pizza</h3>
+            <p class="text-green-600 font-bold text-sm">₹425</p>
+            <div class="mt-2">
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/1200x/52/a1/32/52a132a0127a0ca0e8a933a5128cf065.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Exotic Veg Pizza</h3>
+            <p class="text-green-600 font-bold text-sm">₹385</p>
+            <div class="mt-2">
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/1200x/9d/b7/50/9db750a4eafcf1d1fb551520018c8bf6.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Hawaiian Cheese Pizza</h3>
+            <p class="text-green-600 font-bold text-sm">₹425</p>
+            <div class="mt-2">
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/736x/d1/22/d0/d122d0966d12e639b194870ccd74ed96.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Crispy Veg Burger</h3>
+            <p class="text-green-600 font-bold text-sm">₹275</p>
+            <div class="mt-2">
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/1200x/b2/35/6e/b2356e63b5fb4dcecf61878ac399e202.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Chicken Burger</h3>
+            <p class="text-green-600 font-bold text-sm">₹285</p>
+            <div class="mt-2">
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/736x/13/47/75/1347755ef25e3ed5717ebb09dee525d9.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Cottage Cheese Burger</h3>
+            <p class="text-green-600 font-bold text-sm">₹285</p>
+            <div class="mt-2">
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </p>
+    </section>
+    <section id="drinks" class="mb-12"><h2 class="pinyon-script-regular text-3xl font-bold">Drinks</h2>
+      <p>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-6 mt-6">
+        <!-- ✅ Food Card -->
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/736x/99/7e/c4/997ec4b70d360c96697eada2299c7c8f.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Water Bottle</h3>
+            <p class="text-green-600 font-bold text-sm">₹50</p>
+
+            <div class="mt-2">
+              <!-- Add Button -->
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)"> Add </button>
+
+              <!-- Quantity Selector (hidden initially) -->
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Duplicate & Change Values for More Items -->
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/736x/45/18/2d/45182d5572c92f94155725cf14ebb98d.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Soft Drinks</h3>
+            <p class="text-green-600 font-bold text-sm">₹85</p>
+            <div class="mt-2">
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/736x/05/eb/76/05eb7625df7e54c3224e0705ec2bbb81.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Mango Lassi</h3>
+            <p class="text-green-600 font-bold text-sm">₹175</p>
+            <div class="mt-2">
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/1200x/be/84/cc/be84cc69ff7ade1d2bf00ea2a624cb4e.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Watermelon Mojito</h3>
+            <p class="text-green-600 font-bold text-sm">₹195</p>
+            <div class="mt-2">
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/736x/f5/ae/c1/f5aec1bb0f6c605327f73f79a8b21ad4.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Spicy Lady</h3>
+            <p class="text-green-600 font-bold text-sm">₹195</p>
+            <div class="mt-2">
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/736x/c6/87/b3/c687b3578dffebf7d02fbe13daf195bd.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Kiwi Delight</h3>
+            <p class="text-green-600 font-bold text-sm">₹195</p>
+            <div class="mt-2">
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/736x/97/8d/78/978d785d036e4b89a56524dd7ad4549c.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Blue Island Sea</h3>
+            <p class="text-green-600 font-bold text-sm">₹195</p>
+            <div class="mt-2">
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/736x/14/cd/e4/14cde43eb3850f05214c536f3fb0f7e7.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Peach Panic</h3>
+            <p class="text-green-600 font-bold text-sm">₹195</p>
+            <div class="mt-2">
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </p>
+    </section>
+    <section id="desserts" class="mb-12"><h2 class="pinyon-script-regular text-3xl font-bold">Desserts</h2>
+      <p>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-6 mt-6">
+        <!-- ✅ Food Card -->
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/736x/9a/36/1d/9a361da5138a72fb259d8847be370fad.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Gulab Jamun</h3>
+            <p class="text-green-600 font-bold text-sm">₹165</p>
+
+            <div class="mt-2">
+              <!-- Add Button -->
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)"> Add </button>
+
+              <!-- Quantity Selector (hidden initially) -->
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Duplicate & Change Values for More Items -->
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/736x/fc/ab/4b/fcab4bb6c964cf2bfc4e7ebbcdfc9beb.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Gajar Ka Halwa</h3>
+            <p class="text-green-600 font-bold text-sm">₹185</p>
+            <div class="mt-2">
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/1200x/31/ff/16/31ff16a22268adf6fe3bb8811a173777.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Walnut Brownie</h3>
+            <p class="text-green-600 font-bold text-sm">₹265</p>
+            <div class="mt-2">
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/736x/10/c7/0e/10c70e6903e07575174ef5247b7b7d8d.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Sizzling Brownie</h3>
+            <p class="text-green-600 font-bold text-sm">₹265</p>
+            <div class="mt-2">
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/736x/b9/da/c9/b9dac9759a3dee616cd0818a91a58c61.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Crispy Dates</h3>
+            <p class="text-green-600 font-bold text-sm">₹265</p>
+            <div class="mt-2">
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="food-item bg-white shadow-md rounded-lg p-3 flex flex-col items-center">
+            <img src="https://i.pinimg.com/474x/17/37/3b/17373b33a373bc26bd85ef86fca39ca3.jpg" class="rounded-lg w-full h-28 object-cover">
+            <h3 class="food-name mt-3 font-semibold text-gray-800 text-center">Choice Of Ice Cream</h3>
+            <p class="text-green-600 font-bold text-sm">₹175</p>
+            <div class="mt-2">
+              <button class="add-btn bg-green-600 text-white px-4 py-1 rounded text-sm" onclick="addToCart(this)">Add</button>
+              <div class="qty-box hidden flex items-center gap-3">
+                <button class="decrease bg-gray-200 px-2 pb-1 rounded" onclick="decreaseQty(this)">-</button>
+                <span class="qty text-lg font-bold">1</span>
+                <button class="increase bg-gray-200 px-2 pb-1 rounded" onclick="increaseQty(this)">+</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </p>
+    </section>
+  </div>
+
+  <!-- ✅ Script -->
+  <script src="../customer/js/menuOverview.js" defer></script>
+</body>
+</html>
