@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
   restoreCartUI();
 })
 
+
+
 const sidebar = document.getElementById('sidebar');
 const overlay = document.getElementById('overlay');
 const mobileSearch = document.getElementById('mobileSearch');

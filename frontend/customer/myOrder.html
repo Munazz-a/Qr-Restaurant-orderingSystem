@@ -20,11 +20,39 @@
 
 <!-- cart items -->
 <div id="order-list" class="mt-24 block space-y-6"></div>
-<p id="totalAmount" class="flex justify-center text-lg font-semibold mt-4 px-3 pb-10"></p>
+<p id="totalAmount" class="flex justify-center text-lg font-semibold mt-4 px-3 pb-10 mb-20"></p>
 
+<!-- ✅ Place Order Button -->
+<div class="fixed bottom-0 left-0 right-0 bg-white p-4 shadow-lg z-50">
+    <button id="placeOrderBtn" 
+        class="w-full bg-green-600 text-white py-3 rounded-lg font-semibold text-lg active:scale-95 transition">
+        Place Order
+    </button>
+    <p id="orderStatus" class="hidden text-green-600 font-semibold mt-3"></p>
+</div>
 
-   
+<!-- ✅ PAYMENT POPUP MODAL -->
+<div id="paymentModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-end z-50">
+    <div class="bg-white w-full rounded-t-2xl p-6">
+        <h2 class="text-xl font-semibold mb-4">Select Payment Method</h2>
 
+        <div class="space-y-4">
+            <label class="flex items-center justify-between p-3 border rounded-lg cursor-pointer">
+                <span>Online Payment</span>
+                <input type="radio" name="payment" value="online" checked class="h-5 w-5">
+            </label>
+
+            <label class="flex items-center justify-between p-3 border rounded-lg cursor-pointer">
+                <span>Pay Later</span>
+                <input type="radio" name="payment" value="later" class="h-5 w-5">
+            </label>
+        </div>
+
+        <button id="confirmPaymentBtn" class="mt-6 w-full bg-green-600 text-white py-3 rounded-lg font-semibold text-lg">
+            Continue
+        </button>
+    </div>
+</div>
 
 
 <!-- ✅ Script -->

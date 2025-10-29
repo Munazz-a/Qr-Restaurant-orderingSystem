@@ -1,15 +1,28 @@
 let cart = [];
 let CART_KEY = '';
+let sessionId;
 const totalAmount = document.getElementById('totalAmount');
 const orderList = document.getElementById('order-list');
+const placeOrderBtn = document.getElementById('placeOrderBtn');
+const paymentModal = document.getElementById('paymentModal');
+let PLACED_KEY;
 
 document.addEventListener("DOMContentLoaded", () => {
-    const sessionId = localStorage.getItem("sessionId");
+    sessionId = localStorage.getItem("sessionId");
     CART_KEY = `table_${sessionId}`;
+    PLACED_KEY = `${CART_KEY}_placed`;
     cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
 
-    console.log(cart)
+    if(localStorage.getItem(PLACED_KEY) === "true"){
+        console.log("got PLACED_KEY", PLACED_KEY);
+        placeOrderBtn.disabled = true;
+        placeOrderBtn.classList.add("opacity-50", "cursor-not-allowed");
 
+        orderStatus.innerText = " ✅ Order Confirmed! Please wait for your food.";
+        orderStatus.classList.remove("hidden");
+    }
+
+    console.log(cart)
     displayCartItems(cart);
 })
 
@@ -129,5 +142,66 @@ function displayCartItems(cart){
         totalAmt += item.price * item.quantity;
 
     })
-    totalAmount.textContent = `total: ${totalAmt}`;
+    totalAmount.textContent = `Total: ₹${totalAmt}`;
+    
+}
+
+// payment logic
+
+placeOrderBtn.addEventListener('click', () => {
+    paymentModal.classList.remove('hidden');
+    paymentModal.classList.add('flex');
+})
+paymentModal.addEventListener('click', (e) => {
+    if(e.target === paymentModal){
+        paymentModal.classList.add('hidden');
+    }
+})
+document.getElementById('confirmPaymentBtn').addEventListener('click', () => {
+    const selectedPayment = document.querySelector('input[name="payment"]:checked').value;
+    console.log("selected: ", selectedPayment);
+    paymentModal.classList.add('hidden');
+
+    if(selectedPayment === 'later'){
+        savingToDb();
+    }
+})
+
+const orderStatus = document.getElementById('orderStatus');
+async function savingToDb(){
+    try{
+        const tableRes = await fetch(`/api/table/${sessionId}`);
+        const tableData = await tableRes.json();
+
+        const tableNo = tableData.tableNumber;
+
+        const totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+        const orderRes = await fetch('/api/order', {
+            method : 'POST',
+            headers : { "Content-Type" : "application/json" },
+            body : JSON.stringify({
+                tableNo,
+                cart,
+                totalAmount
+            })
+        })
+        const orderData = await orderRes.json();
+        console.log(orderData);
+
+        if(orderData.success){
+            PLACED_KEY = `${CART_KEY}_placed`;
+            localStorage.setItem(PLACED_KEY, "true");
+
+            placeOrderBtn.disabled = true;
+            placeOrderBtn.classList.add("opacity-50", "cursor-not-allowed");
+
+            orderStatus.innerText = " ✅ Order Confirmed! Please wait for your food.";
+            orderStatus.classList.remove("hidden");
+        }
+
+    } catch(err){
+        console.error('Error getting order response: ', err);
+    }
+    
 }

@@ -18,6 +18,7 @@ app.use(express.static('frontend'));
 
 // route
 app.use('/api', require('./backend/routes/tableRoutes.js'))
+app.use('/api', require('./backend/routes/cartRoutes.js'))
 
 // static pages
 app.get('/', (req, res) => {

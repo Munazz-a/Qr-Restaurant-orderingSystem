@@ -3,7 +3,6 @@ const route = express.Router();
 const crypto = require('crypto');
 
 const table = require('../models/tableModel.js');
-const tableModel = require('../models/tableModel.js');
 
 route.post('/table', async(req, res) => {
     try{
