@@ -1,1 +1,33 @@
-<h1>My Orderrrr</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyOrder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+<nav class="fixed top-0 left-0 right-0 bg-white shadow-md z-50 flex items-center justify-center px-4 py-4">
+    <button class="absolute left-4 p-2 rounded-full hover:bg-gray-200 active:scale-90 transition">
+        <a href="./menuOverview">
+            <span class="text-3xl"><i class="bi bi-arrow-left-short"></i></span>
+        </a>
+    </button>
+    <p class="text-lg font-semibold">Your Order</p>
+</nav>
+
+<!-- cart items -->
+<div id="order-list" class="mt-24 block space-y-6"></div>
+<p id="totalAmount" class="flex justify-center text-lg font-semibold mt-4 px-3 pb-10"></p>
+
+
+   
+
+
+
+<!-- ✅ Script -->
+<script src="../customer/js/myOrder.js"></script>
+</body>
+</html>
