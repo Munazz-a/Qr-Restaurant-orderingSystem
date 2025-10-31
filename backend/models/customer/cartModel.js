@@ -19,6 +19,14 @@ const cartScheme = new mongoose.Schema({
         type : Number,
         required : true
     },
+    paymentMethod : {
+        type : String,
+        required : true
+    },
+    paymentStatus : {
+        type : String,
+        required : true
+    },
     createdAt : {
         type : Date,
         default : Date.now

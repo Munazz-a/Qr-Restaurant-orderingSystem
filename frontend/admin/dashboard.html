@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin dashboard</title>
+</head>
+<body>
+    <h1>Admin dashboard</h1>
+</body>
+
+<script>
+    const token = localStorage.getItem('token');
+
+    fetch('/api/admin/dashboard', {
+        headers : {
+            Authorization : `Bearer ${token}`
+        }
+    })
+    .then(res => res.json())
+    .then(data => console.log(data))
+    .catch(err => console.error(err));
+</script>
+
+</html>

@@ -17,8 +17,11 @@ mongoose.connect(process.env.MONGO_URI)
 app.use(express.static('frontend'));
 
 // route
-app.use('/api', require('./backend/routes/tableRoutes.js'))
-app.use('/api', require('./backend/routes/cartRoutes.js'))
+app.use('/api', require('./backend/routes/customer/tableRoutes.js'))
+app.use('/api', require('./backend/routes/customer/cartRoutes.js'))
+app.use('/api', require('./backend/routes/adminRoutes.js'))
+app.use('/api', require('./backend/routes/chefRoutes.js'))
+app.use('/api', require('./backend/routes/authRoutes.js'))
 
 // static pages
 app.get('/', (req, res) => {
@@ -29,6 +32,15 @@ app.get(`/menuOverview`, (req, res) => {
 })
 app.get(`/myOrder`, (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'customer', 'myOrder.html'));
+})
+app.get(`/login`, (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'adminChef.html'));
+})
+app.get(`/admin/dashboard`, (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'admin',  'dashboard.html'));
+})
+app.get(`/chef/dashboard`, (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'chef',  'dashboard.html'));
 })
 
 app.listen(3000, () => {

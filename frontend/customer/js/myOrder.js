@@ -30,6 +30,12 @@ function saveCart() {
   localStorage.setItem(CART_KEY, JSON.stringify(cart));
   console.log("Cart updated:", cart);
 
+  if(cart.length === 0){
+        orderList.innerHTML = `<p class="text-center text-gray-500">Your cart is empty</p>`;
+        totalAmount.textContent = "";
+        return;
+    }
+
 }
 
 function increaseQty(btn){
@@ -162,13 +168,13 @@ document.getElementById('confirmPaymentBtn').addEventListener('click', () => {
     console.log("selected: ", selectedPayment);
     paymentModal.classList.add('hidden');
 
-    if(selectedPayment === 'later'){
-        savingToDb();
+    if(selectedPayment === 'Pay later'){
+        savingToDb('Pay later', 'Pending');
     }
 })
 
 const orderStatus = document.getElementById('orderStatus');
-async function savingToDb(){
+async function savingToDb(paymentMethod, paymentStatus){
     try{
         const tableRes = await fetch(`/api/table/${sessionId}`);
         const tableData = await tableRes.json();
@@ -183,7 +189,9 @@ async function savingToDb(){
             body : JSON.stringify({
                 tableNo,
                 cart,
-                totalAmount
+                totalAmount,
+                paymentMethod,
+                paymentStatus
             })
         })
         const orderData = await orderRes.json();
@@ -203,5 +211,55 @@ async function savingToDb(){
     } catch(err){
         console.error('Error getting order response: ', err);
     }
-    
+}
+// online payment
+
+// const paymentClient = new google.payment.api.PaymentClient({ environment : "TEST" });
+// const paymentRequest = {
+//   apiVersion: 2,
+//   apiVersionMinor: 0,
+//   allowedPaymentMethods: [{
+//     type: 'CARD',
+//     parameters: {
+//       allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
+//       allowedCardNetworks: ['MASTERCARD', 'VISA']
+//     },
+//     tokenizationSpecification: {
+//       type: 'PAYMENT_GATEWAY',
+//       parameters: {
+//         gateway: 'razorpay',  // or your provider (stripe, etc.)
+//         gatewayMerchantId: 'your_merchant_id_here'
+//       }
+//     }
+//   }],
+//   merchantInfo: {
+//     merchantId: '12345678901234567890',
+//     merchantName: 'QR Restaurant'
+//   },
+//   transactionInfo: {
+//     totalPriceStatus: 'FINAL',
+//     totalPrice: totalAmount.toString(),
+//     currencyCode: 'INR'
+//   }
+// };
+
+async function onlinePayment(){
+    try{
+        const paymentData = await paymentClient.loadPaymentData(paymentRequest);
+        const verifyRes = await fetch('/api/payment', {
+            method : "POST",
+            headers : { "Content-Type" : "application/json" },
+            body : JSON.stringify({ paymentData })
+        });
+        const verifyResult = await verifyRes.json();
+
+        if(verifyResult.success){
+            console.log('Payment Verified!!');
+            await savingToDb('Pay later', 'Paid');
+        } else {
+            console.error('Payment Error');
+        }
+    } catch(err){
+        console.log('GPay error: ',err);
+    }
 }

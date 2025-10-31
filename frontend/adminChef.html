@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AdminChef Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+
+  <!-- Login Card -->
+  <div class="bg-white shadow-lg rounded-2xl p-8 w-full max-w-sm">
+    <h2 class="text-2xl font-semibold text-center text-gray-800 mb-6">Login</h2>
+
+    <!-- Username -->
+    <input id="username" placeholder="Username" 
+      class="w-full mb-4 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-400 focus:outline-none">
+
+    <!-- Password -->
+    <input id="password" type="password" placeholder="Password"
+      class="w-full mb-6 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-400 focus:outline-none">
+
+    <!-- Login Button -->
+    <button onclick="login()" class="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 rounded-lg transition-all duration-200">
+      Login
+    </button>
+
+  </div>
+
+  <script>
+    async function login() {
+        const res = await fetch('/api/auth/login', {
+            method : 'POST',
+            headers : { "Content-Type" : "application/json" },
+            body : JSON.stringify({
+                username : document.getElementById("username").value.trim(),
+                password : document.getElementById("password").value.trim()
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+          console.log('pass_correct', data.token);
+          localStorage.setItem('token', data.token);
+
+          if (data.role === 'admin') window.location.href = '/admin/dashboard';
+          else if (data.role === 'chef') window.location.href = '/chef/dashboard';
+        })
+        .catch(err => console.error(err));
+
+      if (!username || !password) {
+        alert("Please enter both username and password");
+        return;
+      }
+
+    }
+  </script>
+
+</body>
+</html>
