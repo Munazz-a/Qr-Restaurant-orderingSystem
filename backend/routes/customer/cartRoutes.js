@@ -1,10 +1,12 @@
 const express = require('express');
 const route = express.Router();
 
+
 const cartItems = require('../../models/customer/cartModel');
 
 route.post('/order', async(req, res) => {
     try{
+        const io = req.app.get('io');
         const { tableNo, cart, totalAmount, paymentMethod, paymentStatus } = req.body;
         const orderCart = await cartItems.create({
         tableNo,
@@ -14,6 +16,7 @@ route.post('/order', async(req, res) => {
         paymentStatus
         })
         console.log(orderCart);
+        io.emit('newOrder', orderCart);
         res.json({ success : true, orderCart})
     } catch (err) {
         console.log('Error uploading cart to db: ', err);
