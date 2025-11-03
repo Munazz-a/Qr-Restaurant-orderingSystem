@@ -3,19 +3,18 @@ A full-stack web application that allows customers to scan a **unique QR code** 
 ## 🚀 Features
 
 ### 🧑‍🍳 Customer Side
-- Scan QR code to access the restaurant’s digital menu.
+- Scan the QR code to access the restaurant’s digital menu.
 - Browse and add items to the cart.
 - Choose payment mode: **Online Payment** or **Pay Later**.
 - View order summary and total bill before confirming the order.
 
 ### 👨‍💼 Admin Dashboard
-- Add, edit, or delete menu items.
 - View and manage orders from different tables.
 - Monitor real-time order updates.
 
 ### 👨‍🍳 Chef Dashboard
 - View live incoming orders table-wise.
-- Update order status as "Preparing", "Ready", or "Served".
+- edit or delete menu items.
 - Auto-refresh order list on new updates.
 
 - ## 🛠️ Tech Stack
