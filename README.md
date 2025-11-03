@@ -54,11 +54,11 @@ A full-stack web application that allows customers to scan a **unique QR code** 
 ### 📌 cart Page
 ![cart Page](screenshots/cartPage.jpg)
 
-### 📌 admin Dashboard Page
-![admin Dashboard Page](screenshots/adminDashboardPage.jpg)
+### 📌 Admin Dashboard Page
+![admin Dashboard Page](screenshots/adminDashboard.png)
 
-### 📌 chef Dashboard Page
-![chef Dashboard Page](screenshots/chefDashboardPage.jpg)
+### 📌 Chef Dashboard Page
+![chef Dashboard Page](screenshots/chefDashboard.png)
 
 
 ## ⚙️ Installation & Setup
