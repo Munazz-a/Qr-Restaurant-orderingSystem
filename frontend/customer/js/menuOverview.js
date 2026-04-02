@@ -2,7 +2,9 @@ document.addEventListener('DOMContentLoaded', () => {
   restoreCartUI();
 })
 
-
+window.addToCart = addToCart;
+window.increaseQty = increaseQty;
+window.decreaseQty = decreaseQty;
 
 const sidebar = document.getElementById('sidebar');
 const overlay = document.getElementById('overlay');
