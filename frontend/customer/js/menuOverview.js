@@ -2,10 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
   restoreCartUI();
 })
 
-window.addToCart = addToCart;
-window.increaseQty = increaseQty;
-window.decreaseQty = decreaseQty;
-
 const sidebar = document.getElementById('sidebar');
 const overlay = document.getElementById('overlay');
 const mobileSearch = document.getElementById('mobileSearch');
@@ -139,6 +135,10 @@ function decreaseQty(btn){
 window.onload = () => {
   toggleSidebar();
 }
+
+window.addToCart = addToCart;
+window.increaseQty = increaseQty;
+window.decreaseQty = decreaseQty;
 
 // sessionId & table number fetching.
 // const sessionId = localStorage.getItem('sessionId');
