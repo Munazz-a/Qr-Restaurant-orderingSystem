@@ -34,10 +34,31 @@ A full-stack web application that allows customers to scan a **unique QR code** 
 - Online payment confirms via frontend integration (e.g., GPay/Razorpay API).
 - On success, order details are stored in MongoDB under that table’s session ID.
 
-  🔐 Authentication
+  - ## 🔐 Authentication
 
 - Admin and Chef have secure logins verified through JWT tokens.
-- Customers do not need a login — they are identified using a unique sessionId stored per table
+- Customers do not need a login — they are identified using a unique sessionId stored per table.
+
+  
+## 📸 Screenshot
+
+### 📌 Home Page
+![Splash Page](screenshots/splashPage.jpg)
+
+### 📌 overview Page
+![overview Page](screenshots/overviewPage.jpg)
+
+### 📌 menu Page
+![menu Page](screenshots/menuPage.jpg)
+
+### 📌 cart Page
+![cart Page](screenshots/cartPage.jpg)
+
+### 📌 Admin Dashboard Page
+![admin Dashboard Page](screenshots/adminDashboard.png)
+
+### 📌 Chef Dashboard Page
+![chef Dashboard Page](screenshots/chefDashboard.png)
 
 
 ## ⚙️ Installation & Setup
