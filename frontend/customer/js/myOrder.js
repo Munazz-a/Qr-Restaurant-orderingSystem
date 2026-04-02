@@ -171,6 +171,11 @@ document.getElementById('confirmPaymentBtn').addEventListener('click', () => {
     if(selectedPayment === 'Pay later'){
         savingToDb('Pay later', 'Pending');
     }
+    else if(selectedPayment === 'Online Payment'){
+        handlePayment();
+        console.log("Payment function triggered");
+    }
+
 })
 
 const orderStatus = document.getElementById('orderStatus');
@@ -212,54 +217,16 @@ async function savingToDb(paymentMethod, paymentStatus){
         console.error('Error getting order response: ', err);
     }
 }
+
 // online payment
 
-// const paymentClient = new google.payment.api.PaymentClient({ environment : "TEST" });
-// const paymentRequest = {
-//   apiVersion: 2,
-//   apiVersionMinor: 0,
-//   allowedPaymentMethods: [{
-//     type: 'CARD',
-//     parameters: {
-//       allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
-//       allowedCardNetworks: ['MASTERCARD', 'VISA']
-//     },
-//     tokenizationSpecification: {
-//       type: 'PAYMENT_GATEWAY',
-//       parameters: {
-//         gateway: 'razorpay',  // or your provider (stripe, etc.)
-//         gatewayMerchantId: 'your_merchant_id_here'
-//       }
-//     }
-//   }],
-//   merchantInfo: {
-//     merchantId: '12345678901234567890',
-//     merchantName: 'QR Restaurant'
-//   },
-//   transactionInfo: {
-//     totalPriceStatus: 'FINAL',
-//     totalPrice: totalAmount.toString(),
-//     currencyCode: 'INR'
-//   }
-// };
+const handlePayment = async () => {
+  const upiId = "sultanamunazza3@okaxis";
+  const name = encodeURIComponent("QR Restaurant");
+  const amount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-async function onlinePayment(){
-    try{
-        const paymentData = await paymentClient.loadPaymentData(paymentRequest);
-        const verifyRes = await fetch('/api/payment', {
-            method : "POST",
-            headers : { "Content-Type" : "application/json" },
-            body : JSON.stringify({ paymentData })
-        });
-        const verifyResult = await verifyRes.json();
+  const url = `upi://pay?pa=${upiId}&pn=${name}&am=${amount}&cu=INR`;
+  console.log("UPI URL:", url);
 
-        if(verifyResult.success){
-            console.log('Payment Verified!!');
-            await savingToDb('Pay later', 'Paid');
-        } else {
-            console.error('Payment Error');
-        }
-    } catch(err){
-        console.log('GPay error: ',err);
-    }
-}
+  window.location.href = url;
+};
