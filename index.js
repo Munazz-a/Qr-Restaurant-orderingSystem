@@ -52,8 +52,11 @@ app.get(`/chef/dashboard`, (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'chef',  'chefDashboard.html'));
 })
 
-server.listen(3000, () => {
-    console.log('Working Fine!!');
-})
+if (process.env.VERCEL) {
+  module.exports = app;
+} else {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+}
 
 
