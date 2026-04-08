@@ -12,6 +12,23 @@ const io = new Server(server, {
 });
 app.set('io', io);
 
+
+// verify paths and files
+const fs = require('fs');
+
+app.get('/debug-path', (req, res) => {
+  res.json({
+    dirname: __dirname,
+    frontendExists: fs.existsSync(path.join(__dirname, 'frontend')),
+    customerFolderExists: fs.existsSync(path.join(__dirname, 'frontend/customer')),
+    jsFolderExists: fs.existsSync(path.join(__dirname, 'frontend/customer/js')),
+    menuJsExists: fs.existsSync(
+      path.join(__dirname, 'frontend/customer/js/menuOverview.js')
+    )
+  });
+});
+
+
 // connect to mongoDB
 require('dotenv').config();
 const mongoose = require('mongoose');
