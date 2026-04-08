@@ -1,5 +1,5 @@
 const QRcode = require('qrcode');
-const baseURL = 'https://qr-restaurant-ordering-system-six.vercel.app/';
+const baseURL = 'https://qr-restaurant-ordering-system-rouge.vercel.app/';
 
 for(let table = 1; table <= 3; table++){
     const tableURL = `${baseURL}?table=${table}`;

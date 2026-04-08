@@ -168,3 +168,6 @@ function restoreCartUI(){
     cartItems.innerHTML = cart.length;
   }
 }
+
+window.addToCart = addToCart;
+window.toggleSidebar = toggleSidebar;
