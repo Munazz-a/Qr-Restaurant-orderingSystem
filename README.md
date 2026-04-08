@@ -39,7 +39,18 @@ A full-stack web application that allows customers to scan a **unique QR code** 
 - Admin and Chef have secure logins verified through JWT tokens.
 - Customers do not need a login — they are identified using a unique sessionId stored per table.
 
-  
+## Table QR Codes
+
+### Table 1
+![Table 1 QR](backend/qr/table_1_QR.png)
+
+### Table 2
+![Table 2 QR](backend/qr/table_2_QR.png)
+
+### Table 3
+![Table 3 QR](backend/qr/table_3_QR.png)
+
+
 ## 📸 Screenshot
 
 ### 📌 Home Page
