@@ -79,7 +79,7 @@ A full-stack web application that allows customers to scan a **unique QR code** 
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/your-username/QR-Restaurant-Ordering-System.git
+   git clone https://github.com/your-Munazz-a/QR-Restaurant-Ordering-System.git
    cd QR-Restaurant-Ordering-System
 2. **Install Dependencies** : 
     npm install
