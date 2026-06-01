@@ -1,5 +1,18 @@
 # 🍽️ QR Restaurant Ordering System
 A full-stack web application that allows customers to scan a **unique QR code** placed on each restaurant table to browse the menu, place orders, and choose between **online payment** or **pay later** options. The system also includes **Admin** and **Chef dashboards** for managing menu items and tracking live orders in real time.
+
+## Table QR Codes
+
+### Table 1
+![Table 1 QR](backend/qr/table_1_QR.png)
+
+### Table 2
+![Table 2 QR](backend/qr/table_2_QR.png)
+
+### Table 3
+![Table 3 QR](backend/qr/table_3_QR.png)
+
+
 ## 🚀 Features
 
 ### 🧑‍🍳 Customer Side
@@ -39,7 +52,8 @@ A full-stack web application that allows customers to scan a **unique QR code** 
 - Admin and Chef have secure logins verified through JWT tokens.
 - Customers do not need a login — they are identified using a unique sessionId stored per table.
 
-  
+
+
 ## 📸 Screenshot
 
 ### 📌 Home Page
@@ -65,7 +79,7 @@ A full-stack web application that allows customers to scan a **unique QR code** 
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/your-username/QR-Restaurant-Ordering-System.git
+   git clone https://github.com/your-Munazz-a/QR-Restaurant-Ordering-System.git
    cd QR-Restaurant-Ordering-System
 2. **Install Dependencies** : 
     npm install
