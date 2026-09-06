@@ -2,8 +2,9 @@ const express = require('express');
 const route = express.Router();
 
 const Table = require('../../models/customer/cartModel');
+const { verifyRole } = require('../../middleware/authMiddleware');
 
-route.get('/getOrders', async(req, res) => {
+route.get('/getOrders', verifyRole(['admin', 'chef']), async(req, res) => {
     try{
         const orders = await Table.find();
         res.json(orders);
